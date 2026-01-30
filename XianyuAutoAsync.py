@@ -6760,8 +6760,13 @@ class XianyuLive:
         websockets_version = getattr(websockets, '__version__', '未知')
         logger.warning(f"websockets库版本: {websockets_version}")
 
+        # 检查版本号，16.0版本不支持headers参数
+        if websockets_version.startswith('16.'):
+            logger.warning("检测到websockets 16.x版本，使用基础连接模式（不支持headers参数）")
+            return websockets.connect(self.base_url)
+        
         try:
-            # 尝试使用extra_headers参数
+            # 尝试使用extra_headers参数（较新版本）
             return websockets.connect(
                 self.base_url,
                 extra_headers=headers
@@ -6773,7 +6778,7 @@ class XianyuLive:
 
             if "extra_headers" in error_msg or "unexpected keyword argument" in error_msg:
                 logger.warning("websockets库不支持extra_headers参数，尝试additional_headers")
-                # 使用additional_headers参数（较新版本）
+                # 使用additional_headers参数（更老版本）
                 try:
                     return websockets.connect(
                         self.base_url,
