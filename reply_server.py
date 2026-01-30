@@ -40,8 +40,8 @@ except ImportError:
 KEYWORDS_FILE = Path(__file__).parent / "回复关键字.txt"
 
 # 简单的用户认证配置
-ADMIN_USERNAME = "admin"
-DEFAULT_ADMIN_PASSWORD = "admin123"  # 系统初始化时的默认密码
+ADMIN_USERNAME = "xifyuw"
+DEFAULT_ADMIN_PASSWORD = "xifyuw123"  # 系统初始化时的默认密码
 SESSION_TOKENS = {}  # 存储会话token: {token: {'user_id': int, 'username': str, 'timestamp': float}}
 TOKEN_EXPIRE_TIME = 24 * 60 * 60  # token过期时间：24小时
 
@@ -406,7 +406,7 @@ async def health_check():
 # ==================== 版本检查和更新日志接口 ====================
 import httpx
 
-@app.get('/api/version/check')
+# @app.get('/api/version/check')
 async def check_version():
     """检查最新版本（代理外部接口）"""
     try:
@@ -425,7 +425,7 @@ async def check_version():
         return {"error": True, "message": f"检查版本失败: {str(e)}"}
 
 
-@app.get('/api/version/changelog')
+# @app.get('/api/version/changelog')
 async def get_changelog():
     """获取更新日志（代理外部接口）"""
     try:
@@ -5778,7 +5778,7 @@ def get_item_reply(cookie_id: str, item_id: str, current_user: Dict[str, Any] = 
 
 # ------------------------- 数据库备份和恢复接口 -------------------------
 
-@app.get('/admin/backup/download')
+# @app.get('/admin/backup/download')
 def download_database_backup(
     token: str = None,
     credentials: Optional[HTTPAuthorizationCredentials] = Depends(security)

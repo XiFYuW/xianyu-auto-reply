@@ -9,7 +9,7 @@ services:
     # 使用root用户避免权限问题
     user: "0:0"
     ports:
-      - "${WEB_PORT:-8080}:8080"
+      - "${WEB_PORT:-14582}:14582"
     volumes:
       # 数据持久化
       - ./data:/app/data:rw
@@ -75,24 +75,6 @@ services:
         reservations:
           memory: ${MEMORY_RESERVATION:-512}M
           cpus: '${CPU_RESERVATION:-0.5}'
-
-  # 可选：添加Nginx反向代理
-  nginx:
-    image: nginx:alpine
-    container_name: xianyu-nginx
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/ssl:/etc/nginx/ssl:ro
-    depends_on:
-      - xianyu-app
-    networks:
-      - xianyu-network
-    profiles:
-      - with-nginx
 
 networks:
   xianyu-network:
